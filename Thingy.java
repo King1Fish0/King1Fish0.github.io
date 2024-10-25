@@ -5,30 +5,72 @@
 package com.mycompany.thingy;
 
 /**
- *
- * @author cod39
+ *create a method outside of main named printStatus
+ * when printStatus is given a moped object, have the method print the status of moped (give year, make, and current speed)
+ * continue in main
+ * create scanner object name keyboard
+ * prompt user to enter the year of their moped
+ * save keyboard.nextInt to int value year
+ * prompt user to enter make of moped
+ * save keyboard.next to String value make
+ * use printStatus to display status of moped
+ * create a for loop that loops four times
+ * within the loop, call the accelerate method within the moped object
+ * use printStatus at the end of every loop
+ * create a for loop that repeats three times
+ * within the loop, call the brake method within the moped object
+ * call printStatus at the end of every loop
  */
+import java.util.*;
 public class Thingy {
+    /*
+    Prints given parameter moped object
+    */
+    public static void printStatus(Moped moped){
+        System.out.println("A "+moped.getYear()+" "+moped.getMake()+" going "+moped.getSpeed()+" miles per hour.");
+    }
+    public static int isValid(Scanner keyboard){//prompts user to input a double, repeats till a valid double is given
+        
+        int year = -1;
+        boolean valid = false;
 
+        while (!valid) {
+            System.out.print("Enter a year between 1995 and 2023: ");
+            if (keyboard.hasNextInt()) {
+                year = keyboard.nextInt();
+                if (year >= 1995 && year <= 2023) {
+                    valid = true;
+                } else {
+                    System.out.println("Invalid input. Year must be between 1995 and 2023.");
+                }
+            } else {
+                System.out.println("Invalid input. Please enter a valid integer.");
+                keyboard.next(); // Clear the invalid input
+            }
+        }
+
+        return year;
+
+    }
     public static void main(String[] args) {
-        Rectangle livingRoom = new Rectangle();
-        livingRoom.setLength(10);
-        livingRoom.setWidth(12);
+        Scanner keyboard = new Scanner(System.in);//creates scanner object
         
-        System.out.println("The area of the living room is "+livingRoom.getArea());
+        int year = isValid(keyboard);//saves users int input
         
-        Rectangle kitchen = new Rectangle();
-        kitchen.setLength(5);
-        kitchen.setWidth(4);
-        System.out.println("Dimensions of the kitch:\nWidth: "+kitchen.getWidth()+"\nLength: "+kitchen.getLength());
+        System.out.println("Enter the make of your Moped (such as Yamaha, Vespa, or Lexmoto");
+        String make = keyboard.next();//saves users string input
         
-        Rectangle garage = new Rectangle();
-        garage.setWidth(15);
-        garage.setLength(13);
+        Moped first = new Moped(year,make);//creates moped object with user inputs as parameters
         
-        System.out.println("Area of garage is "+garage.getArea());
+        printStatus(first);//prints moped status
+        for(int i = 0; i<4; i++){//loops for 4 times
+            first.accelerate();//adds 5 to moped speed
+            printStatus(first);//prints moped status
+        }
         
-        Rectangle den = new Rectangle(12,16);
-        System.out.println(den);
+        for(int i = 0; i < 3; i++){//loops 3 times
+            first.brake();//subtracts 5 from moped speed
+            printStatus(first);//prints moped status
+        }
     }
 }
